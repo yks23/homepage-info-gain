@@ -6,7 +6,7 @@
   <title>Info-Gain Sampler · Improving Sampling for Masked Diffusion Models</title>
   <meta name="description" content="Project page for the paper: Improving Sampling for Masked Diffusion Models via Information Gain." />
   <meta property="og:title" content="Info-Gain Sampler" />
-  <meta property="og:description" content="A training-free decoding framework for Masked Diffusion Models that balances immediate certainty with future information gain." />
+  <meta property="og:description" content="ICML 2026 paper: a training-free decoding method for Masked Diffusion Models that balances immediate uncertainty with information gained over remaining masked positions." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
@@ -16,28 +16,15 @@
 
 <!-- ============== HERO ============== -->
 <header class="hero" id="top">
-  <div class="hero-bg" aria-hidden="true">
-    <svg class="hero-grid" viewBox="0 0 800 600" preserveAspectRatio="none">
-      <defs>
-        <pattern id="dots" width="32" height="32" patternUnits="userSpaceOnUse">
-          <circle cx="1.4" cy="1.4" r="1.4" fill="currentColor" />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#dots)" />
-    </svg>
-    <div class="hero-glow g1"></div>
-    <div class="hero-glow g2"></div>
-  </div>
-
   <div class="hero-inner container">
     <div class="news-banner">
-      🎉 <strong>News:</strong> Accepted to <strong>ICML 2026</strong>!
+      <strong>ICML 2026</strong> accepted paper · arXiv updated May 22, 2026
     </div>
 
     <div class="hero-eyebrow">
       <span class="badge badge-icml">ICML&nbsp;2026</span>
       <span class="dot">·</span>
-      <span class="eyebrow-text">Masked Diffusion · Training-free Sampler</span>
+      <span class="eyebrow-text">Masked Diffusion Models · Training-free Decoding</span>
     </div>
 
     <h1 class="hero-title">
@@ -64,7 +51,10 @@
       <a class="btn btn-primary" href="https://arxiv.org/abs/2602.18176" target="_blank" rel="noopener">
         <span class="btn-icon">arXiv</span><span class="btn-text">2602.18176</span>
       </a>
-      <a class="btn" href="https://github.com/yks23/Information-Gain-Sampler" target="_blank" rel="noopener">
+      <a class="btn" href="assets/paper.pdf" target="_blank" rel="noopener">
+        <span class="btn-icon">PDF</span><span class="btn-text">Paper</span>
+      </a>
+      <a class="btn" href="https://github.com/yks23/info-gain-sampler" target="_blank" rel="noopener">
         <span class="btn-icon">‹/›</span><span class="btn-text">Code</span>
       </a>
       <a class="btn" href="#bibtex">
@@ -75,10 +65,17 @@
     <div class="hero-tldr">
       <span class="tldr-label">TL;DR</span>
       <span class="tldr-body">
-        Existing MDM samplers are <em>myopic</em> — they pick the locally most certain token without thinking ahead.
-        Info-Gain Sampler additionally rewards decisions that <em>reduce uncertainty over the rest of the sequence</em>,
-        and consistently beats greedy baselines across reasoning, code, image and creative writing.
+        Existing MDM samplers are <em>myopic</em>: they select locally certain tokens without accounting for downstream
+        effects. Info-Gain Sampler scores decoding actions by both immediate uncertainty and information gained over
+        remaining masked positions, improving reasoning accuracy by <strong>2.9-11.6 pp</strong> and achieving a
+        <strong>62.8%</strong> average creative-writing win rate.
       </span>
+    </div>
+
+    <div class="metric-strip" aria-label="Paper highlights">
+      <div><strong>Training-free</strong><span>No model updates</span></div>
+      <div><strong>Bidirectional lookahead</strong><span>One batched pass</span></div>
+      <div><strong>Broad evaluation</strong><span>Reasoning, code, text, image</span></div>
     </div>
   </div>
 
@@ -128,17 +125,15 @@
         <h2 class="section-title">Abstract</h2>
       </div>
       <p class="prose">
-        Masked Diffusion Models (MDMs) offer greater flexibility in decoding order than autoregressive models, but
-        require careful planning to achieve high-quality generation. Existing samplers typically adopt
-        <em>greedy heuristics</em>, prioritizing positions with the highest local certainty. Through failure-case
-        analysis, we identify a fundamental limitation: such samplers neglect the downstream impact of current decoding
-        choices and fail to minimize <em>cumulative</em> uncertainty.
+        Masked Diffusion Models (MDMs) enable flexible decoding orders, yet existing samplers remain largely greedy,
+        selecting locally certain tokens without accounting for their downstream effects. We show that this myopia can
+        increase cumulative uncertainty and lead to suboptimal generation.
       </p>
       <p class="prose">
-        We propose the <strong>Info-Gain Sampler</strong>, a principled, training-free decoding framework that balances
-        immediate uncertainty with information gain over future masked tokens. Across reasoning, coding, creative
-        writing, and image generation, Info-Gain Sampler consistently outperforms prior greedy baselines — including a
-        concurrent lookahead method — while keeping practical overhead minimal.
+        To address this, we propose the <strong>Info-Gain Sampler</strong>, a training-free decoding method that uses
+        the bidirectional structure of MDMs to balance immediate uncertainty with the information gained over remaining
+        masked positions. Across reasoning, coding, creative writing, and image generation tasks, Info-Gain Sampler
+        consistently outperforms existing MDM samplers.
       </p>
     </div>
   </section>
@@ -176,10 +171,10 @@
 
         <article class="finding">
           <div class="finding-eyebrow">Creative Writing · Win Rate</div>
-          <div class="finding-stat">63.1<span class="unit">%</span></div>
+          <div class="finding-stat">62.8<span class="unit">%</span></div>
           <h3 class="finding-title">Average win-rate vs. baselines</h3>
           <p class="finding-body">
-            Across temperatures and configs, Info-Gain wins <strong>63.1%</strong> of head-to-heads on AlpacaEval,
+            Across temperatures and configs, Info-Gain wins <strong>62.8%</strong> of head-to-heads on AlpacaEval,
             peaking at <strong>80.3%</strong> against Entropy at high stochasticity (τ = 1.5).
           </p>
         </article>
@@ -396,12 +391,13 @@
       </div>
       <div class="bibtex-block">
         <button class="copy-btn" id="copyBibtex" aria-label="Copy BibTeX">Copy</button>
-<pre><code id="bibtexCode">@article{yang2026improving,
-  title   = {Improving Sampling for Masked Diffusion Models via Information Gain},
-  author  = {Yang, Kaisen and Teoh, Jayden and Yang, Kaicheng
-             and Zhang, Yitong and Lamb, Alex},
-  journal = {arXiv preprint arXiv:2602.18176},
-  year    = {2026}
+<pre><code id="bibtexCode">@inproceedings{yang2026improving,
+  title     = {Improving Sampling for Masked Diffusion Models via Information Gain},
+  author    = {Yang, Kaisen and Teoh, Jayden and Yang, Kaicheng
+               and Zhang, Yitong and Lamb, Alex},
+  booktitle = {Proceedings of the 43rd International Conference on Machine Learning},
+  year      = {2026},
+  url       = {https://arxiv.org/abs/2602.18176}
 }</code></pre>
       </div>
     </div>
@@ -417,8 +413,9 @@
       <p class="footer-meta">© 2026 · Project page · Built with intent, not template.</p>
     </div>
     <div class="footer-right">
-      <a href="https://arxiv.org/html/2602.18176v2" target="_blank" rel="noopener">arXiv</a>
-      <a href="https://github.com/yks23/Information-Gain-Sampler" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://arxiv.org/abs/2602.18176" target="_blank" rel="noopener">arXiv</a>
+      <a href="assets/paper.pdf" target="_blank" rel="noopener">PDF</a>
+      <a href="https://github.com/yks23/info-gain-sampler" target="_blank" rel="noopener">GitHub</a>
       <a href="#top">↑ Top</a>
     </div>
   </div>

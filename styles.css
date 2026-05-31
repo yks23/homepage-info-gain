@@ -1,13 +1,13 @@
 /* =========================================================
    Info-Gain Sampler — Project Page
-   Aesthetic: warm cream + ink + burnt amber + deep teal.
+   Aesthetic: paper-like neutral base + ink + burnt amber + deep teal.
    Type stack: Fraunces (display) / Inter (body) / JetBrains Mono.
    ========================================================= */
 
 :root {
   /* Palette */
-  --bg:        #faf6ef;          /* warm cream */
-  --bg-tint:   #f1ebde;          /* card / tinted band */
+  --bg:        #fbfaf7;
+  --bg-tint:   #f0efe9;
   --bg-dark:   #15171c;          /* dark band */
   --ink:       #15151a;
   --ink-soft:  #2a2a31;
@@ -20,8 +20,8 @@
   --teal:      #0f5d6e;          /* secondary accent — deep teal */
   --teal-soft: #cfe5ea;
 
-  --radius: 14px;
-  --radius-lg: 22px;
+  --radius: 8px;
+  --radius-lg: 12px;
   --shadow-sm: 0 1px 0 rgba(20,15,5,0.04), 0 1px 3px rgba(20,15,5,0.05);
   --shadow-md: 0 6px 28px -10px rgba(20,15,5,0.18);
 
@@ -46,6 +46,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: "ss01", "cv11";
+  overflow-x: hidden;
 }
 
 a { color: var(--amber); text-decoration: none; }
@@ -75,45 +76,8 @@ code, pre {
   position: relative;
   overflow: hidden;
   padding: clamp(48px, 9vw, 110px) 0 clamp(36px, 5vw, 60px);
-  background:
-    radial-gradient(ellipse 60% 40% at 50% 0%, #fff8eb 0%, transparent 70%),
-    var(--bg);
+  background: var(--bg);
   border-bottom: 1px solid var(--hairline);
-}
-
-.hero-bg {
-  position: absolute; inset: 0; pointer-events: none; z-index: 0;
-  color: rgba(194, 65, 12, 0.08);
-}
-
-.hero-grid {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  opacity: 0.6;
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 30%, transparent 80%);
-}
-
-.hero-glow {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.5;
-  pointer-events: none;
-}
-.hero-glow.g1 {
-  width: 480px; height: 480px;
-  background: radial-gradient(circle, #f5b078 0%, transparent 70%);
-  top: -160px; left: -100px;
-  animation: float 18s ease-in-out infinite;
-}
-.hero-glow.g2 {
-  width: 420px; height: 420px;
-  background: radial-gradient(circle, #8fc4cf 0%, transparent 70%);
-  bottom: -180px; right: -120px;
-  animation: float 22s ease-in-out -6s infinite;
-}
-@keyframes float {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%      { transform: translate(30px, -20px) scale(1.08); }
 }
 
 .hero-inner {
@@ -123,6 +87,9 @@ code, pre {
 
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: 10px;
+  max-width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
   font-size: 13px; letter-spacing: 0.06em;
   color: var(--ink-soft);
   margin-bottom: 28px;
@@ -134,16 +101,20 @@ code, pre {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 18px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #fff7ed 0%, #fde8cc 100%);
-  border: 1.5px solid var(--amber-soft);
+  max-width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  white-space: normal;
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  background: #fff;
+  border: 1px solid var(--hairline);
   color: var(--amber);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.01em;
   margin-bottom: 20px;
-  box-shadow: 0 2px 12px -4px rgba(194,65,12,0.18);
+  box-shadow: var(--shadow-sm);
 }
 
 .badge {
@@ -176,9 +147,8 @@ code, pre {
 
 .title-mark {
   position: relative;
-  display: inline-block;
-  background: linear-gradient(180deg, transparent 62%, var(--amber-soft) 62%, var(--amber-soft) 92%, transparent 92%);
-  background-repeat: no-repeat;
+  display: inline;
+  color: var(--teal);
   padding: 0 4px;
 }
 
@@ -206,6 +176,7 @@ code, pre {
 
 .links {
   display: inline-flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+  max-width: 100%;
   margin-bottom: 36px;
 }
 
@@ -277,9 +248,70 @@ code, pre {
 }
 .tldr-body em { color: var(--ink); }
 
+.metric-strip {
+  max-width: 860px;
+  margin: 22px auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.metric-strip div {
+  background: #fff;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  text-align: left;
+  box-shadow: var(--shadow-sm);
+}
+.metric-strip strong {
+  display: block;
+  color: var(--ink);
+  font-size: 0.95rem;
+  line-height: 1.25;
+}
+.metric-strip span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin-top: 2px;
+}
+@media (max-width: 720px) {
+  .metric-strip { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 520px) {
+  .hero {
+    padding-top: 42px;
+  }
+  .hero-title {
+    font-size: clamp(1.85rem, 10vw, 2.45rem);
+    line-height: 1.08;
+    overflow-wrap: anywhere;
+  }
+  .news-banner,
+  .hero-eyebrow,
+  .links {
+    width: 100%;
+  }
+  .btn {
+    flex: 1 1 140px;
+    justify-content: center;
+  }
+  .authors,
+  .affiliations,
+  .hero-tldr {
+    overflow-wrap: anywhere;
+  }
+  .hero-tldr {
+    padding: 16px 18px;
+  }
+}
+
 /* Marquee */
 .marquee {
   margin-top: clamp(40px, 5vw, 64px);
+  width: 100%;
+  max-width: 100vw;
   overflow: hidden;
   border-top: 1px dashed var(--hairline-strong);
   border-bottom: 1px dashed var(--hairline-strong);
@@ -757,7 +789,6 @@ code, pre {
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
   .marquee-track { animation: none; }
-  .hero-glow { animation: none; }
 }
 
 /* =========================================================
@@ -766,7 +797,7 @@ code, pre {
 
 @media (max-width: 640px) {
   .hero-eyebrow { flex-wrap: wrap; gap: 6px; }
-  .hero-title { font-size: clamp(1.9rem, 9vw, 2.6rem); }
+  .hero-title { font-size: clamp(1.8rem, 8.5vw, 2.25rem); }
   .links { gap: 8px; }
   .btn { padding: 9px 14px; font-size: 13px; }
   .toc-inner { gap: 16px; font-size: 13px; }
